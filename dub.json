@@ -1,0 +1,12 @@
+{
+	"name": "hindleymilnerd",
+	"authors": [
+		"alphaKAI"
+	],
+	"description": "Hindley Milner Type Inference System for miniml in D",
+	"copyright": "Copyright (c) 2016 alphaKAI",
+	"license": "MIT",
+  "dependencies": {
+    "kontainer":">=0.0.2"
+  }  
+}

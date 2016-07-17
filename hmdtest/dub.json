@@ -1,0 +1,12 @@
+{
+	"name": "hmdtest",
+	"authors": [
+		"alphaKAI"
+	],
+	"description": "test for HindleyMilnerD",
+	"copyright": "Copyright (c) 2016 alphaKAI",
+	"license": "MIT",
+  "dependencies": {
+    "hindleymilnerd":{"path":"../"}
+  }
+}
