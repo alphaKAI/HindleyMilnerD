@@ -1,3 +1,6 @@
+/*
+  Copyright (C) 2016 Akihiro Shoji <alpha.kai.net at alpha-kai-net.info> 
+*/
 module HindleyMilnerD.term;
 
 import HindleyMilnerD.util;
@@ -12,15 +15,19 @@ import HindleyMilnerD.util;
  *   - letrec式(LetRec)
  */
 
-/**
-  * D言語において、instanceof を実現する手法を考えた時に、基底クラスに
-  * 派生クラスが、どの派生クラスであるのかを示す識別子としてtypeという
-  * enumを持たせることで、それを用いて識別を可能にすることで、instanceofの代替を実現する。
-  * if (cast(Foo)obj) は instanceof のようにつかえるが、次に述べる理由からこの方が都合が良い。
-  * また、typeをみることにより、基底クラスとしてアップキャスト
-  * して渡されたインスタンスを、派生クラスに戻す際にtypeに従ってfinal switchを用いて
-  * 分岐することで、安全にダウンキャストをすることが出来る。
-  */
+/*
+  D言語にはinstanceofがない。
+  ここで、型安全なダウンキャストを実現するために、ある基底クラスの派生クラスが一意な識別子を持たせることでinstanceofを使わずに
+  アップキャストされた派生クラスのインスタンスを型安全にダウンキャストを実現した。
+  その識別子として、enumを用いた。
+  なお、if(cast(Foo)obj)は一応instanceofのように使うことができるが、enumを用いて識別するほうが都合がよい。
+  というのも
+  if (cast(Foo)obj) {
+  } else if(cast(Bar)obj) {}....
+  と続くのは個人的に読みづらく感じる。
+  それゆえD言語の言語機能であるfinal swithがつかえるenumを用いたのである。
+ */
+
 enum TermType {
   Variable,
   Lambda,

@@ -1,3 +1,6 @@
+/*
+  Copyright (C) 2016 Akihiro Shoji <alpha.kai.net at alpha-kai-net.info> 
+*/
 module HindleyMilnerD.typeinfer;
 
 import HindleyMilnerD.util,
@@ -12,10 +15,16 @@ import std.array,
        std.conv;
 
 /**
- * TypeInferはHM型推論の全体を含む。Scalaではオブジェクトだったので、
- * @SIngletonとして定義してある。サービスメソッドを呼び出すための静的
- * import可能な変数として、static typeInferを容易してある。
- * 型チェックの全体の流れは、
+ * TypeInferはHM型推論の全体を含む。
+ *
+ * Groovy版が
+ *「Scalaではオブジェクトだったので、 @SIngletonとして定義してある。
+ * サービスメソッドを呼び出すための静的
+ * import可能な変数として、static typeInferを容易してある」
+ * とあったので、それに習ってSingletonな実装にした。
+ * この実装方法は個人的には余り好みではないため、今後変更する可能性がある。
+ *
+ * なお、型チェックの全体の流れは
  *
  * showType ->  predefinedEnv
  *          ->  typeOf         ->    tp  ->  mgu
@@ -29,6 +38,7 @@ class TypeInfer {
     return new TypeInfer;
   }
 
+  //使用済みの型変数のsuffixを管理する。
   static int n;
 
   static void reset() {
@@ -305,17 +315,13 @@ class TypeInfer {
     }
   }
 
-  /**
-   * @Singleton宣言したクラスのシングルトンはTypeInfer.instanceで保持
-   * されており、クラス外からも取得できる。しかし、
-   * 「TypeInfer.instance」が少し冗長なのと、Scala版に合せるため、シ
-   * ングルトンを以下で定義する静的変数TypeInfer.typeInferで取得でき
-   * るようにする。ただしSingletonの初期化タイミングの都合上か、遅延
-   * 設定のAST変換@Lazyを指定しないとうまくいかないようである。
-   */
+  /*
+    shared static thisでmain関数が実行される前にtypeInferなstaticなインスタンスを作成する。
+  */
   static TypeInfer typeInfer;
   shared static this() {
     typeInfer = TypeInfer.instance();
   }
 }
+//グローバルなスコープで上のtypeInferが使えるようにaliasを張る
 alias typeInfer = TypeInfer.typeInfer;

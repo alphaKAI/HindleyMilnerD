@@ -1,3 +1,6 @@
+/*
+  Copyright (C) 2016 Akihiro Shoji <alpha.kai.net at alpha-kai-net.info>
+*/
 module HindleyMilnerD.util;
 
 import HindleyMilnerD.term,
@@ -36,7 +39,6 @@ template fold(fun...) if (fun.length >= 1) {
  */
 static T[] zipPairs(T, U)(T t, U u) if ((is(T == Term[]) || is (T == Type[])) && (is(U == Term[]) || is (U == Type[]))) {
   if (t.length != u.length) {
-    //throw new Error("Can not zip between different length arrays");
     // unify [AA[]] with [], 
     string arrayShow(Z)(Z z) {
       string[] ar;

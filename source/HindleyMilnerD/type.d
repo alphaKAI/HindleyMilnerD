@@ -1,3 +1,6 @@
+/*
+  Copyright (C) 2016 Akihiro Shoji <alpha.kai.net at alpha-kai-net.info> 
+*/
 module HindleyMilnerD.type;
 
 import HindleyMilnerD.util;
@@ -58,10 +61,6 @@ class Tyvar : Type {
   alias opEquals = Object.opEquals;
   override bool opEquals(Object obj) {
     if (cast(Tyvar)obj) {
-      /*      import std.stdio;
-              writeln("Tyvar - opEquals");
-              writeln("Tyvar - opEquals : this.a -> ", this.a);
-              writeln("Tyvar - opEquals : (cast(Tyvar)obj).a -> ", (cast(Tyvar)obj).a);*/
       return this.a == (cast(Tyvar)obj).a;
     } else {
       //ERROR

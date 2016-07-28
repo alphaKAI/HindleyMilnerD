@@ -1,3 +1,6 @@
+/*
+  Copyright (C) 2016 Akihiro Shoji <alpha.kai.net at alpha-kai-net.info> 
+*/
 module HindleyMilnerD.subst;
 
 import HindleyMilnerD.util,
@@ -12,12 +15,10 @@ import std.algorithm,
 
 /**
  * Substは「型に含まれる型変数の置換処理」を表わす。
- * Subst represent a step of substitution of type variables of polymorphic type.
  *
- * Substはcallメソッドが定義されているので、Subst(のサブクラス)のイ
- * ンスタンスに対して関数のように呼び出すことができる(Groovyの機能)。
- * 例えばx = new Subst(); x(..)と呼べるということ。
- * 2種類の引数の型に対してcallが定義されている。
+ * SubstはopCallを用いて、インスタンスを関数のように呼び出すことが可能・
+ * 例えばSubst x = new Subst(); x(..)と呼べるということ。
+ * 2種類の引数の型に対してopCcallが定義されている。
  * 
  *  - call(Type)
  *    型中に含まれる型変数を置換する。
@@ -31,6 +32,7 @@ import std.algorithm,
  * れるので、複数の置換が適用できる。Innerクラスのインスタンスを作成す
  * るには、extendを呼ぶ。
  */
+
 class Subst {
   /**
    * 指定した型変数の置換結果を返す。
@@ -42,8 +44,7 @@ class Subst {
 
   /**
    * 初期値としての空の置換を返す。
-   * 任意のSubstインスタンスについて、OuterクラスのOuterクラスの…
-   * という連鎖の最終端となる。
+   * Substのインスタンスがつくるチェインの終点。
    */
   static Subst emptySubst;
   static this() {
@@ -71,7 +72,7 @@ class Subst {
         Type u = lookup(cast(Tyvar)t);
 
         return (t.type == u.type && t == u) ? t : call(u);
-        // TODO: this code could throw stack overflow in the case of cyclick substitution.
+        // TODO: this code can throw stack overflow exception in the case of cyclick substitution.
       case TypeType.Arrow:
         return new Arrow(call((cast(Arrow)t).t1), call((cast(Arrow)t).t2));
       case TypeType.Tycon:
@@ -99,7 +100,7 @@ class Subst {
   }
 
   /*
-   * opCallをつかって、上のcallにディスパッチさせる
+   * opCallをつかって、上のcallにディスパッチさせる。
    */
   Type opCall(Type t) {
     return call(t);

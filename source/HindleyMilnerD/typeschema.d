@@ -1,3 +1,6 @@
+/*
+  Copyright (C) 2016 Akihiro Shoji <alpha.kai.net at alpha-kai-net.info> 
+*/
 module HindleyMilnerD.typeschema;
 
 import HindleyMilnerD.util,
